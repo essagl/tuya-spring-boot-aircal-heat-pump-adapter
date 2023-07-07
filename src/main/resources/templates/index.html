@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Heat Pump status page</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1", charset="UTF-8" >
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <style>
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div th:replace="header"></div>
+
+<div class="container bg-light">
+    <div class="row">
+        <div class="col">
+            <div class="mt-2 bg-info">
+                <label>&nbsp;Indoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${index.getIndoorTemp()}"></span><label>&nbsp;℃</label>
+            </div>
+            <div class="bg-info">
+                <label>&nbsp;Outdoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${index.getOutdoorTemp()}"></span><label>&nbsp;℃</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+
+    setTimeout(function(){
+        window.location.reload();
+    }, 60000);
+</script>
+
+</body>
+</html>
