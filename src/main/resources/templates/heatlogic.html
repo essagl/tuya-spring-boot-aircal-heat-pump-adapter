@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Heatlogic status page</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, charset=UTF-8" >
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+        }
+
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .tslider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .tslider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .tslider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .tslider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .tslider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .tslider.round {
+            border-radius: 34px;
+        }
+
+        .tslider.round:before {
+            border-radius: 50%;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div th:replace="header"></div>
+
+<div class="container bg-light">
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-2 text-primary">Heating Logic settings</h5>
+            <form method="post" th:object="${heatingLogic}">
+                <div id="ergebnis" class="ergebnis">
+                    Heating logic
+                    <span id="status">ON</span>
+                </div>
+                <label class="switch">
+                    <input id="toggleswitch" type="checkbox" checked th:if="*{heatingLogicMode == 'ON'}">
+                    <input id="toggleswitch" type="checkbox"  th:if="*{heatingLogicMode == 'OFF'}">
+                    <span class="tslider round"></span>
+                </label>
+                <input id="heatingLogicMode" type="hidden" th:field="*{heatingLogicMode}">
+                <div class="slidecontainer">
+                    <label for="indoorTempRange">Target Indoor Temp&nbsp;</label><span id="targetIndoorTemp"></span><label>&nbsp;℃</label>
+                    <input type="range" min="10" max="25" th:field="*{targetIndoorTemp}" class="slider" id="indoorTempRange">
+                </div>
+                <div class="slidecontainer">
+                    <label for="heatingFlowTempRange">Heating Flow Temp&nbsp;</label><span id="heatingFlowTemp"></span><label>&nbsp;℃</label>
+                    <input type="range" min="10" max="55" th:field="*{heatingFlowTemp}" class="slider" id="heatingFlowTempRange">
+                </div>
+                <div class="slidecontainer">
+                    <label for="standbyFlowTempRange">Standby Flow Temp&nbsp;</label><span id="standbyFlowTemp"></span><label>&nbsp;℃</label>
+                    <input type="range" min="10" max="55" th:field="*{standbyFlowTemp}" class="slider" id="standbyFlowTempRange">
+                </div>
+                <button class="btn btn-primary" type="submit">Set new values</button>
+            </form>
+            <button class="mt-2 btn btn-primary" onclick="window.location.href='/heatlogic';">Reset</button>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+    var indoorTempSlider = document.getElementById("indoorTempRange");
+    var indoorTempOutput = document.getElementById("targetIndoorTemp");
+    indoorTempOutput.innerHTML = indoorTempSlider.value;
+    indoorTempSlider.oninput = function() {
+        indoorTempOutput.innerHTML = this.value;
+    }
+
+    var heatingFlowTempSlider = document.getElementById("heatingFlowTempRange");
+    var heatingFlowTempOutput = document.getElementById("heatingFlowTemp");
+    heatingFlowTempOutput.innerHTML = heatingFlowTempSlider.value;
+    heatingFlowTempSlider.oninput = function() {
+        heatingFlowTempOutput.innerHTML = this.value;
+    }
+
+    var standbyFlowTempSlider = document.getElementById("standbyFlowTempRange");
+    var standbyFlowTempOutput = document.getElementById("standbyFlowTemp");
+    standbyFlowTempOutput.innerHTML = standbyFlowTempSlider.value;
+    standbyFlowTempSlider.oninput = function() {
+        standbyFlowTempOutput.innerHTML = this.value;
+    }
+
+
+    var input = document.getElementById('toggleswitch');
+    var outputtext = document.getElementById('status');
+    var heatingLogicMode = document.getElementById('heatingLogicMode');
+
+    input.addEventListener('change',function(){
+        if(this.checked) {
+            outputtext.innerHTML = "ON";
+            heatingLogicMode.value = "ON";
+        } else {
+            outputtext.innerHTML = "OFF";
+            heatingLogicMode.value = "OFF";
+        }
+    });
+    if(input.checked) {
+        outputtext.innerHTML = "ON";
+    } else {
+        outputtext.innerHTML = "OFF";
+    }
+    setTimeout(function(){
+        window.location.reload();
+    }, 60000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1", charset="UTF-8" >
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <title>saved values</title>
+
+</head>
+<body>
+
+<div th:replace="header"></div>
+
+
+<div class="container">
+    <h5 class="mt-5 text-primary" >New temperature settings</h5>
+    <div class="text-info">
+        <label>HeatingLogicMode&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.heatingLogicMode}"></span>
+    </div>
+    <div class="text-info">
+        <label>TargetIndoorTemp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.targetIndoorTemp}"></span><label>&nbsp;℃</label>
+    </div>
+    <div class="text-info">
+        <label>HeatingFlowTemp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.heatingFlowTemp}"></span><label>&nbsp;℃</label>
+    </div>
+    <div class="text-info">
+        <label>StandbyFlowTemp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.standbyFlowTemp}"></span><label>&nbsp;℃</label>
+    </div>
+
+
+    <a th:href="@{/heatlogic}" class="btn btn-primary">Go back</a>
+</div>
+
+</body>
+</html>
