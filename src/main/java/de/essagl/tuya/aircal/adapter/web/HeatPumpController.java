@@ -1,7 +1,8 @@
 package de.essagl.tuya.aircal.adapter.web;
 
-import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
 import de.essagl.tuya.aircal.adapter.ability.model.*;
+import de.essagl.tuya.aircal.adapter.model.ControlParameter;
+import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -98,6 +99,11 @@ public class HeatPumpController {
     public DoubleLabelValueUnit getOutsideTemp() {
         return  heatPumpService.getOutsideTemp();
     }
-    //################  private methods #######################
 
+    //################  control parameter #######################
+    @Operation(summary = "Get the actual control parameter of the heat pump")
+    @GetMapping("/controlParameter")
+    public ControlParameter getControlParameter() {
+        return  heatPumpService.getControlParameter();
+    }
 }

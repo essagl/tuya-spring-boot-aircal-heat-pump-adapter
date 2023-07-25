@@ -1,12 +1,13 @@
 package de.essagl.tuya.aircal.adapter.service;
 
 import de.essagl.tuya.aircal.adapter.ability.model.*;
+import de.essagl.tuya.aircal.adapter.model.ControlParameter;
 
 import java.util.Arrays;
 import java.util.List;
 
 
-public interface HeatPumpService  {
+public interface HeatPumpService {
 
    List<String> heatPumpModes = Arrays.asList("workingModeHotWater","workingModeHeating","workingModeCooling","workingModeHotWaterAndHeating","workingModeHotWaterAndCooling");
 
@@ -87,5 +88,7 @@ public interface HeatPumpService  {
    String getWorkingModeKey(String value);
 
    String getControlPanelVersion();
+
+   ControlParameter getControlParameter();
 
 }

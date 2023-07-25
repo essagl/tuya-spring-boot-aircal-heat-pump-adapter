@@ -1,13 +1,19 @@
 package de.essagl.tuya.aircal.adapter.service;
 
 import de.essagl.tuya.aircal.adapter.ability.model.*;
+import de.essagl.tuya.aircal.adapter.model.ControlParameter;
+import de.essagl.tuya.aircal.adapter.model.ControlParameter201;
+import de.essagl.tuya.aircal.adapter.model.ControlParameter202;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Service
 public class HeatPumpServiceImpl implements HeatPumpService {
@@ -124,5 +130,17 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     @Override
     public String getControlPanelVersion() {
         return heatPumpControlPanelVersion;
+    }
+
+    @Override
+    public ControlParameter getControlParameter() {
+        if (heatPumpControlPanelVersion.equals("202")){
+            byte[] c1c30DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c01_c30_reading",heatPumpDeviceId));
+            byte[] c31c56DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c31_c56_reading",heatPumpDeviceId));
+            return new ControlParameter202(c1c30DecodedBytes,c31c56DecodedBytes);
+        } else if (heatPumpControlPanelVersion.equals("201")) {
+            return new ControlParameter201();
+        }
+        return null;
     }
 }
