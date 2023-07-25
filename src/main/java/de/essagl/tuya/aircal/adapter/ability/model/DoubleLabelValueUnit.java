@@ -10,6 +10,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleLabelValueUnit {
     private String key;
+    private String name;
     private Double value;
     private String unit;
+
+    public DoubleLabelValueUnit(String key, Double value, String unit) {
+        this.key = key;
+        this.value = value;
+        this.unit = unit;
+    }
 }
