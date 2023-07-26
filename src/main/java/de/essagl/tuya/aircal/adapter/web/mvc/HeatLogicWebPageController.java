@@ -26,7 +26,7 @@ public class HeatLogicWebPageController {
     @GetMapping
     public String main(Model model) {
         HeatingLogic heatingLogic = new HeatingLogic();
-
+        heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
 
@@ -41,6 +41,7 @@ public class HeatLogicWebPageController {
     @PostMapping
     public String save(HeatingLogic heatingLogic, Model model) {
         model.addAttribute("heatingLogic", heatingLogic);
+        heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogicService.setRunningMode(heatingLogic.getHeatingLogicMode());
         heatingLogicService.setHeatingFlowTemperature(heatingLogic.getHeatingFlowTemp());
         heatingLogicService.setStandbyFlowTemperature(heatingLogic.getStandbyFlowTemp());

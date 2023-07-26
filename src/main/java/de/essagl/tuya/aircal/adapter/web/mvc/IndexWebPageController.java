@@ -26,11 +26,11 @@ public class IndexWebPageController {
     @GetMapping
     public String main(Model model) {
         HeatingLogic heatingLogic = new HeatingLogic();
-
+        heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
 
-        model.addAttribute("index", heatingLogic);
+        model.addAttribute("heatingLogic", heatingLogic);
         return "index";
     }
 
