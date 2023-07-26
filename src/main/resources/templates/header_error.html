@@ -1,9 +1,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <span class="navbar-brand" style="color:#F30A03FF;"  th:if="*{!heatingLogic.heatPumpOnline}">offline</span>
-        <span class="navbar-brand" style="color:#1bf303;" th:if="*{heatingLogic.heatPumpOnline}">online</span>
-        <a class="navbar-brand" href="/">Heat Pump Status</a>
+        <span class="navbar-brand" id=time></span>
+        <span class="navbar-brand" style="color:#F30A03FF;">Error</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -11,6 +10,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Flow Pump Settings</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/heatlogic">HeatLogic Settings</a>
                 </li>
@@ -21,3 +23,11 @@
         </div>
     </div>
 </nav>
+<script>
+    function setDate(){
+        // get a new date (locale machine date time)
+        document.getElementById('time').innerHTML = new Date().toLocaleString("de-DE");
+    }
+    setDate();
+    setInterval(function () {setDate()}, 1000) ;
+</script>

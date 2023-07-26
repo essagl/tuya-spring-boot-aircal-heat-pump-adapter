@@ -14,4 +14,5 @@ public class HeatingLogic {
     private double targetIndoorTemp;
     private double heatingFlowTemp;
     private double standbyFlowTemp;
+    private boolean heatPumpOnline;
 }
