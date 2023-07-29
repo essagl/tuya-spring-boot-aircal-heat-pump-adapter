@@ -195,10 +195,10 @@ public class HeatingLogicService {
     // set flow temperature in version 2.01 by using workaround for bug that the temp could not be set
     private void setHeatingWaterFlowTemp(int value, String original_mode) {
         if (heatPumpService.getControlPanelVersion().equals("201")) {
-            if (original_mode.equals(heatPumpService.getWorkingModeValue("workingModeHeating"))){
+            if (original_mode.equals(heatPumpService.getWorkingModeValue("workingModeHotWater"))){
                 heatPumpService.setMode("workingModeHotWaterAndHeating");
             } else {
-                heatPumpService.setMode(heatPumpService.getWorkingModeValue("workingModeHeating"));
+                heatPumpService.setMode(heatPumpService.getWorkingModeValue("workingModeHotWater"));
             }
         }
 

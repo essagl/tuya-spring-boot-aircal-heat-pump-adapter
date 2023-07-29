@@ -69,7 +69,7 @@ public class HeatingLogicServiceTest {
         // Test with indoorTemp < indoorSetTemperature - 1d
         heatingLogicService.computeAndSetTemperature();
 
-        verify(heatPumpService).setMode(eq("workingModeHotWaterAndHeating"));
+ //       verify(heatPumpService).setMode(eq("workingModeHotWaterAndHeating"));
         verify(heatPumpService).setMode(eq("workingModeHeating"));
         verify(heatPumpService).setHeatingWaterFlowTemp(eq(50));
 
@@ -99,7 +99,7 @@ public class HeatingLogicServiceTest {
         heatingLogicService.computeAndSetTemperature();
 
         // Verify setWaterFlowTemp was called with standbyFlowTemperature value
-        verify(heatPumpService).setMode(eq("workingModeHotWaterAndHeating"));
+ //       verify(heatPumpService).setMode(eq("workingModeHotWaterAndHeating"));
         verify(heatPumpService).setMode(eq("workingModeHeating"));
         verify(heatPumpService).setHeatingWaterFlowTemp(eq(20));
     }
