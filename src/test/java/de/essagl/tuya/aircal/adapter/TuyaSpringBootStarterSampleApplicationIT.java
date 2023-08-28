@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @SpringBootTest(classes = {TuyaAircalHeatPumpAdapterApplication.class})
-class TuyaSpringBootStarterSampleApplicationTests {
+class TuyaSpringBootStarterSampleApplicationIT {
 
     @Autowired
     private ApplicationContext applicationContext;
