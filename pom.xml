@@ -9,11 +9,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.tuya</groupId>
+    <groupId>de.essagl.tuya.aircal.adapter</groupId>
     <artifactId>tuya-aircal-heatpump-adapter</artifactId>
     <version>1.4.0</version>
     <name>aircal-tuya-heat-pump-adapter</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Local Aircal king heat pump Tuya adapter</description>
 
     <properties>
         <java.version>1.8</java.version>
