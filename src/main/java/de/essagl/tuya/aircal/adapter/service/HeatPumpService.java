@@ -66,6 +66,12 @@ public interface HeatPumpService {
    DoubleLabelValueUnit getServiceWaterFlowTemp();
 
    /**
+    * Get the value for the room temperature
+    * @return DoubleLabelValueUnit
+    */
+   DoubleLabelValueUnit getRoomTemp();
+
+   /**
     * Get the actual value of the custom and drinking water measured temperature
     * @return DoubleLabelValueUnit
     */

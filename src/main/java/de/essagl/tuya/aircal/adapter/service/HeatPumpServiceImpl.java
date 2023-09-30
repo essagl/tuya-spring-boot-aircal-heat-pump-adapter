@@ -88,6 +88,11 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     }
 
     @Override
+    public DoubleLabelValueUnit getRoomTemp() {
+        return getControlParameter().getC26();
+    }
+
+    @Override
     public DoubleLabelValueUnit getServiceWaterTemp() {
         DoubleLabelValueUnit serviceWaterTemp =  deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("serviceWaterTemp"), heatPumpDeviceId) ;
         serviceWaterTemp.setValue(serviceWaterTemp.getValue() / 10);
