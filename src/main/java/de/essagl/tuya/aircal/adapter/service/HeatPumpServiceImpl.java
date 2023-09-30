@@ -95,11 +95,6 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     }
 
     @Override
-    public DoubleLabelValueUnit getRoomTemp() {
-        return getControlParameter().getC26();
-    }
-
-    @Override
     public StringLabelValueUnit getMode() {
         StringLabelValueUnit workingMode =  deviceService.getStringLabelValueForKey(heatPumpCodeKeys.getProperty("mode"), heatPumpDeviceId);
         workingMode.setValue(getWorkingModeKey(workingMode.getValue()));

@@ -1,6 +1,7 @@
 package de.essagl.tuya.aircal.adapter.web.mvc;
 
 import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
+import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.HeatingLogic;
 import de.essagl.tuya.aircal.adapter.service.operationalControl.HeatingLogicService;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({ "/heatlogic" })
 public class HeatLogicWebPageController {
     private final HeatPumpService heatPumpService;
-
+    private final IndoorThermometerService thermometerService;
     private final HeatingLogicService heatingLogicService;
 
-    public HeatLogicWebPageController(HeatPumpService heatPumpService, HeatingLogicService heatingLogicService) {
+    public HeatLogicWebPageController(HeatPumpService heatPumpService, IndoorThermometerService thermometerService, HeatingLogicService heatingLogicService) {
         this.heatPumpService = heatPumpService;
+        this.thermometerService = thermometerService;
         this.heatingLogicService = heatingLogicService;
     }
 
@@ -25,7 +27,7 @@ public class HeatLogicWebPageController {
     public String main(Model model) {
         HeatingLogic heatingLogic = new HeatingLogic();
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
-        heatingLogic.setIndoorTemp(heatPumpService.getRoomTemp().getValue());
+        heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
 
         heatingLogic.setHeatingLogicMode(heatingLogicService.getRunningModeValue().getValue());
