@@ -11,7 +11,7 @@
 
     <groupId>de.essagl.tuya.aircal.adapter</groupId>
     <artifactId>tuya-aircal-heatpump-adapter</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <name>aircal-tuya-heat-pump-adapter</name>
     <description>Local Aircal king heat pump Tuya adapter</description>
 

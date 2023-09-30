@@ -1,7 +1,6 @@
 package de.essagl.tuya.aircal.adapter.web.mvc;
 
 import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
-import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.HeatingLogic;
 import de.essagl.tuya.aircal.adapter.service.operationalControl.HeatingLogicService;
 import org.springframework.stereotype.Controller;
@@ -14,20 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({ "/", "/index" })
 public class IndexWebPageController {
     private final HeatPumpService heatPumpService;
-    private final IndoorThermometerService thermometerService;
     private final HeatingLogicService heatingLogicService;
 
-    public IndexWebPageController(HeatPumpService heatPumpService, IndoorThermometerService thermometerService, HeatingLogicService heatingLogicService) {
+    public IndexWebPageController(HeatPumpService heatPumpService, HeatingLogicService heatingLogicService) {
         this.heatPumpService = heatPumpService;
-        this.thermometerService = thermometerService;
-        this.heatingLogicService = heatingLogicService;
+          this.heatingLogicService = heatingLogicService;
     }
 
     @GetMapping
     public String main(Model model) {
         HeatingLogic heatingLogic = new HeatingLogic();
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
-        heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
+        heatingLogic.setIndoorTemp(heatPumpService.getRoomTemp().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
 
         model.addAttribute("heatingLogic", heatingLogic);

@@ -5,7 +5,6 @@ import de.essagl.tuya.aircal.adapter.ability.model.DoubleLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.ability.model.StringLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.service.DeviceService;
 import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
-import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,7 +23,6 @@ public class HeatingLogicService {
 
     private boolean checkIsRunning = false;
     private final DeviceService deviceService;
-    private final IndoorThermometerService thermometerService;
 
     private final HeatPumpService heatPumpService;
 
@@ -58,13 +56,11 @@ public class HeatingLogicService {
 
     public HeatingLogicService(DeviceService deviceService,
                                HeatPumpService heatPumpService,
-                               IndoorThermometerService thermometerService,
                                @Value("${indoorDefaultSetTemperature}")  Double indoorSetTemperature,
                                @Value("${heatingLogicMode}")  Mode runningMode,
                                @Value("${heatingFlowTemperature}")Double heatingFlowTemperature,
                                @Value("${standbyFlowTemperature}")Double standbyFlowTemperature) throws IOException {
         this.deviceService = deviceService;
-        this.thermometerService = thermometerService;
         this.indoorSetTemperature = indoorSetTemperature;
         this.runningMode = runningMode;
         this.heatingFlowTemperature = heatingFlowTemperature;
@@ -177,7 +173,7 @@ public class HeatingLogicService {
         if (this.actualHeatingWaterFlowTemperature == null){
             this.actualHeatingWaterFlowTemperature = heatPumpService.getHeatingWaterFlowTemp().getValue();
         }
-        double indoorTemp = thermometerService.getTemperature().getValue();
+        double indoorTemp = heatPumpService.getRoomTemp().getValue();
 
         if (indoorTemp < indoorSetTemperature - 1d && !actualHeatingWaterFlowTemperature.equals(heatingFlowTemperature)) {
             log.info("indoorTemperatur {} is more than 1℃ lower that the indoorTargetTemperatur {} -> increase temp_set to {}℃.",indoorTemp,indoorSetTemperature,heatingFlowTemperature.intValue());

@@ -5,7 +5,6 @@ import de.essagl.tuya.aircal.adapter.ability.model.DoubleLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.ability.model.StringLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.service.DeviceService;
 import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
-import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,8 +19,6 @@ public class HeatingLogicServiceTest {
     @Mock
     private DeviceService deviceService;
 
-    @Mock
-    private IndoorThermometerService thermometerService;
 
     @Mock
     private HeatPumpService heatPumpService;
@@ -33,7 +30,6 @@ public class HeatingLogicServiceTest {
         MockitoAnnotations.openMocks(this);
         heatingLogicService = new HeatingLogicService(
                 deviceService, heatPumpService,
-                thermometerService,
                 18.0,
                 HeatingLogicService.Mode.ON,
                 50.0,
@@ -64,7 +60,7 @@ public class HeatingLogicServiceTest {
 
         //when(deviceService.getDoubleValueForKey(eq("va_temperature"), anyString())).thenReturn(15.0 * 10d);
         DoubleLabelValueUnit indoorTemp = new DoubleLabelValueUnit("temperature",15.0,"");
-        when(thermometerService.getTemperature()).thenReturn(indoorTemp);
+        when(heatPumpService.getRoomTemp()).thenReturn(indoorTemp);
 
         // Test with indoorTemp < indoorSetTemperature - 1d
         heatingLogicService.computeAndSetTemperature();
@@ -94,7 +90,7 @@ public class HeatingLogicServiceTest {
 
         // Test with indoorTemp >= indoorSetTemperature
         DoubleLabelValueUnit indoorTemp1 = new DoubleLabelValueUnit("temperature",22.0,"");
-        when(thermometerService.getTemperature()).thenReturn(indoorTemp1);
+        when(heatPumpService.getRoomTemp()).thenReturn(indoorTemp1);
 
         heatingLogicService.computeAndSetTemperature();
 
@@ -127,7 +123,7 @@ public class HeatingLogicServiceTest {
 
 
         DoubleLabelValueUnit indoorTemp = new DoubleLabelValueUnit("temperature",15.0,"");
-        when(thermometerService.getTemperature()).thenReturn(indoorTemp);
+        when(heatPumpService.getRoomTemp()).thenReturn(indoorTemp);
 
 
         // Test with indoorTemp < indoorSetTemperature - 1d
@@ -158,7 +154,7 @@ public class HeatingLogicServiceTest {
 
         // Test with indoorTemp >= indoorSetTemperature
         DoubleLabelValueUnit indoorTemp1 = new DoubleLabelValueUnit("temperature",22.0,"");
-        when(thermometerService.getTemperature()).thenReturn(indoorTemp1);
+        when(heatPumpService.getRoomTemp()).thenReturn(indoorTemp1);
 
         heatingLogicService.computeAndSetTemperature();
 
