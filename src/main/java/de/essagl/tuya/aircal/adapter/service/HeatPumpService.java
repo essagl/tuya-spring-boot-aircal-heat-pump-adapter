@@ -71,6 +71,13 @@ public interface HeatPumpService {
     */
    DoubleLabelValueUnit getServiceWaterTemp();
 
+
+   /**
+    * Get the actual value of the room temperature
+    * @return DoubleLabelValueUnit
+    */
+   DoubleLabelValueUnit getRoomTemp();
+
    /**
     * Get the active working mode
     * @return StringLabelValueUnit

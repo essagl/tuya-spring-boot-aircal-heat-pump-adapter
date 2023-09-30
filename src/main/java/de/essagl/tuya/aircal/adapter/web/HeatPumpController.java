@@ -82,6 +82,13 @@ public class HeatPumpController {
         return  heatPumpService.getServiceWaterFlowTemp();
     }
 
+    @Operation(summary = "Get the value for the room temperature")
+    @GetMapping("/roomTemp")
+    public DoubleLabelValueUnit getRoomTemp() {
+        return  heatPumpService.getRoomTemp();
+    }
+
+
     @Operation(summary = "Get the actual value of the custom and drinking water measured temperature")
     @GetMapping("/serviceWaterTemp")
     public DoubleLabelValueUnit getServiceWaterTemp() {
