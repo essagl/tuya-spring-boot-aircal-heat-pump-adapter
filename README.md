@@ -55,6 +55,7 @@ This can happen for a number of reasons. It means that the device never authenti
 
 ## Running
 The default service UI is running at port 8080.
+
 ![index.jpg](documentation%2Fimages%2Findex.jpg)
 
 by selecting the HeatLogic Settings

@@ -33,6 +33,14 @@ public interface HeatPumpService {
    Boolean setMode(String value);
 
    /**
+    * Set the mode to heating without disabling hot water or cooling or
+    * disable heating without disabling hot water or cooling
+    * @param OnOff
+    * @return true if mode change succeeded or nothing to do
+    */
+   Boolean setHeating(Boolean OnOff);
+
+   /**
     * Set the temperature of the heating water flow temperature in ℃. min:7,max:75,step:1
     * @param value the temperature value
     * @return true = operation succeeded, false = operation failed

@@ -37,6 +37,13 @@ public class HeatPumpController {
     public Boolean setSwitch(@Parameter(required = true, description = "Switch working ON or OFF") @PathVariable("value") boolean value) {
         return heatPumpService.setSwitch(value);
     }
+
+    @Operation(summary = "Turn the pump mode to heating without disabling hot water or cooling or disable heating without disabling hot water or cooling")
+    @PostMapping("/heating/{value}")
+    public Boolean setHeating(@Parameter(required = true, description = "Switch heating ON or OFF") @PathVariable("value") boolean value) {
+        return heatPumpService.setHeating(value);
+    }
+
     @Operation(summary = "Set the working mode")
     @PostMapping("/mode/{value}")
     public Boolean setMode( @PathVariable ("value")  @Parameter(required = true,
@@ -80,6 +87,12 @@ public class HeatPumpController {
     @GetMapping("/serviceWaterFlowTemp")
     public DoubleLabelValueUnit getServiceWaterFlowTemp() {
         return  heatPumpService.getServiceWaterFlowTemp();
+    }
+
+    @Operation(summary = "Get the value for the room temperature")
+    @GetMapping("/roomTemp")
+    public DoubleLabelValueUnit getRoomTemp() {
+        return heatPumpService.getRoomTemp();
     }
 
     @Operation(summary = "Get the actual value of the custom and drinking water measured temperature")

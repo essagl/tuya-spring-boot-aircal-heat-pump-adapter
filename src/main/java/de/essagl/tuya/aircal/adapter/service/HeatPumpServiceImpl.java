@@ -59,6 +59,28 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     public Boolean setMode(String value) {
         return deviceService.sendCommand(heatPumpDeviceId, heatPumpCodeKeys.getProperty("mode"),getWorkingModeValue(value));
     }
+
+    @Override
+    public Boolean setHeating(Boolean OnOff) {
+        if (OnOff){
+            if (getMode().getValue().equals("workingModeHotWater")){
+                return setMode("workingModeHotWaterAndHeating");
+            } else if (getMode().getValue().equals("workingModeCooling")){
+                return setMode("workingModeHotWaterAndCooling");
+            } else {
+                return true;
+            }
+        } else {
+            if (getMode().getValue().equals("workingModeHotWaterAndHeating")){
+                return setMode("workingModeHotWater");
+            } else if (getMode().getValue().equals("workingModeHotWaterAndCooling")){
+                return setMode("workingModeHotWater");
+            } else {
+                return true;
+            }
+        }
+    }
+
     @Override
     public Boolean setHeatingWaterFlowTemp(int value) {
         return deviceService.sendCommand(heatPumpDeviceId, heatPumpCodeKeys.getProperty("heatingWaterFlowTemp"),value);
@@ -79,12 +101,16 @@ public class HeatPumpServiceImpl implements HeatPumpService {
 
     @Override
     public DoubleLabelValueUnit getHeatingWaterFlowTemp() {
-        return deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("heatingWaterFlowTemp"), heatPumpDeviceId);
+        DoubleLabelValueUnit heatingWaterFlowTemp = deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("heatingWaterFlowTemp"), heatPumpDeviceId);
+        heatingWaterFlowTemp.setName("heatingWaterFlowTemp");
+        return heatingWaterFlowTemp;
     }
 
     @Override
     public DoubleLabelValueUnit getServiceWaterFlowTemp() {
-        return deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("serviceWaterFlowTemp"), heatPumpDeviceId);
+        DoubleLabelValueUnit serviceWaterFlowTemp = deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("serviceWaterFlowTemp"), heatPumpDeviceId);
+        serviceWaterFlowTemp.setName("serviceWaterFlowTemp");
+        return serviceWaterFlowTemp;
     }
 
     @Override
@@ -96,6 +122,7 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     public DoubleLabelValueUnit getServiceWaterTemp() {
         DoubleLabelValueUnit serviceWaterTemp =  deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("serviceWaterTemp"), heatPumpDeviceId) ;
         serviceWaterTemp.setValue(serviceWaterTemp.getValue() / 10);
+        serviceWaterTemp.setName("serviceWaterTemp");
         return serviceWaterTemp;
     }
 
@@ -111,6 +138,7 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     public DoubleLabelValueUnit getOutsideTemp() {
         DoubleLabelValueUnit outsideTemp =   deviceService.getDoubleLabelValueForKey(heatPumpCodeKeys.getProperty("outsideTemp"), heatPumpDeviceId);
         outsideTemp.setValue(outsideTemp.getValue() / 10);
+        outsideTemp.setName("outsideTemp");
         return outsideTemp;
     }
 
