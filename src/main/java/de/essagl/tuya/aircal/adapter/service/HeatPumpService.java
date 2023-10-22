@@ -97,6 +97,18 @@ public interface HeatPumpService {
     */
    DoubleLabelValueUnit getOutsideTemp();
 
+   /**
+    * Get the actual Revolutions per minute of the fan
+    * @return DoubleLabelValueUnit
+    */
+    DoubleLabelValueUnit getFanSpeed();
+
+   /**
+    * Get the actual Power consumption in watts
+    * @return
+    */
+   DoubleLabelValueUnit getPowerConsumption();
+
    String getWorkingModeValue(String key);
 
    String getWorkingModeKey(String value);

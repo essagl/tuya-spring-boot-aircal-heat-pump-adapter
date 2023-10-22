@@ -2,18 +2,16 @@ package de.essagl.tuya.aircal.adapter.service;
 
 import de.essagl.tuya.aircal.adapter.ability.model.*;
 import de.essagl.tuya.aircal.adapter.model.ControlParameter;
-import de.essagl.tuya.aircal.adapter.model.ControlParameter201;
+import de.essagl.tuya.aircal.adapter.model.ControlParameterEmpty;
 import de.essagl.tuya.aircal.adapter.model.ControlParameter202;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.io.*;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 public class HeatPumpServiceImpl implements HeatPumpService {
@@ -23,8 +21,10 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     private final Properties heatPumpCodeKeys;
     private final Map<String,String> heatPumpModes;
 
-    private String heatPumpControlPanelVersion;
+    private final String heatPumpControlPanelVersion;
 
+    private Instant lastControlParameterUpdate = Instant.now();
+    private ControlParameter202 controlParameter202 = null;
 
     public HeatPumpServiceImpl(DeviceService deviceService, @Value("${heatPumpDeviceId}") String heatPumpDeviceId,
                                @Value("${heatPumpControlPanelVersion}") String heatPumpControlPanelVersion) throws IOException {
@@ -143,6 +143,23 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     }
 
     @Override
+    public DoubleLabelValueUnit getFanSpeed() {
+        return getControlParameter().getC16();
+    }
+
+    @Override
+    public DoubleLabelValueUnit getPowerConsumption() {
+        DoubleLabelValueUnit current = getControlParameter().getC21();
+        DoubleLabelValueUnit voltage = getControlParameter().getC23();
+        DoubleLabelValueUnit powerConsumption = new DoubleLabelValueUnit();
+        powerConsumption.setKey("powerConsumption");
+        powerConsumption.setValue(current.getValue() * voltage.getValue());
+        powerConsumption.setName("Power Consumption");
+        powerConsumption.setUnit("W");
+        return powerConsumption;
+    }
+
+    @Override
     public String getWorkingModeValue(String key) {
         if (heatPumpModes.containsKey(key)){
             return heatPumpModes.get(key);
@@ -168,12 +185,19 @@ public class HeatPumpServiceImpl implements HeatPumpService {
     @Override
     public ControlParameter getControlParameter() {
         if (heatPumpControlPanelVersion.equals("202")){
-            byte[] c1c30DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c01_c30_reading",heatPumpDeviceId));
-            byte[] c31c56DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c31_c56_reading",heatPumpDeviceId));
-            return new ControlParameter202(c1c30DecodedBytes,c31c56DecodedBytes);
-        } else if (heatPumpControlPanelVersion.equals("201")) {
-            return new ControlParameter201();
+            if (lastControlParameterUpdate.isBefore(Instant.now().minusSeconds(10))){
+                lastControlParameterUpdate = Instant.now();
+                byte[] c1c30DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c01_c30_reading",heatPumpDeviceId));
+                byte[] c31c56DecodedBytes = Base64.getDecoder().decode(deviceService.getStringValueForKey("c31_c56_reading",heatPumpDeviceId));
+                controlParameter202 = new ControlParameter202(c1c30DecodedBytes,c31c56DecodedBytes);
+            }
+            if (controlParameter202 != null){
+                return controlParameter202;
+            } else {
+                return new ControlParameterEmpty();
+            }
+        } else  {
+            return new ControlParameterEmpty();
         }
-        return null;
     }
 }
