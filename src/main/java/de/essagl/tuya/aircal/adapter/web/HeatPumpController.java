@@ -113,6 +113,18 @@ public class HeatPumpController {
         return  heatPumpService.getOutsideTemp();
     }
 
+    @Operation(summary = "Get the actual fan speed of the heat pump")
+    @GetMapping("/fanSpeed")
+    public DoubleLabelValueUnit getFanSpeed() {
+        return heatPumpService.getFanSpeed();
+    }
+
+    @Operation(summary = "Get the power consumption of the heat pump")
+    @GetMapping("/powerConsumption")
+    public DoubleLabelValueUnit powerConsumption() {
+        return heatPumpService.getPowerConsumption();
+    }
+
     //################  control parameter #######################
     @Operation(summary = "Get the actual control parameter of the heat pump")
     @GetMapping("/controlParameter")
