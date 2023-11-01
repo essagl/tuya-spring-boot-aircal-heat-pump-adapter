@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Heat Pump status page</title>
+    <title>Heat Pump status</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, charset=UTF-8" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
     <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.4.0/css/all.css} "/>
+    <link rel="icon" type="image/ico" th:href="@{favicon.ico}">
     <style>
 
         .switch input {
