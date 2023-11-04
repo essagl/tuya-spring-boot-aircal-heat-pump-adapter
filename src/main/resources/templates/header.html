@@ -28,7 +28,8 @@
     </div>
 </nav>
 <script>
-    var fan = document.getElementById("fan");
+    const fan = document.getElementById("fan");
+
     function setDate(){
         // get a new date (locale machine date time)
         document.getElementById('time').innerHTML = new Date().toLocaleString("de-DE");
@@ -43,6 +44,7 @@
                 } else {
                     fan.classList.add("fa-spin")
                 }
+                requestValvePosition();
              }
         };
         request.open("GET", "/heatPump/fanSpeed", true);

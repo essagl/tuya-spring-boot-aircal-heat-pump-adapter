@@ -125,6 +125,17 @@ public class HeatPumpController {
         return heatPumpService.getPowerConsumption();
     }
 
+    @Operation(summary = "unused")
+    @GetMapping("/valve1Position")
+    public Boolean getValve1Position() {
+        return  heatPumpService.getValve1Position();
+    }
+    @Operation(summary = "Get the valve 2 position (false = heating warm water tank - true = heating radiators)")
+    @GetMapping("/valve2Position")
+    public Boolean getValve2Position() {
+        return  heatPumpService.getValve2Position();
+    }
+
     //################  control parameter #######################
     @Operation(summary = "Get the actual control parameter of the heat pump")
     @GetMapping("/controlParameter")

@@ -116,5 +116,16 @@ public interface HeatPumpService {
    String getControlPanelVersion();
 
    ControlParameter getControlParameter();
+   /**
+    * Get the valve 1 position
+    * @return true if valve 1 is open
+    */
+   Boolean getValve1Position();
+
+   /**
+    * get the valve 2 position
+    * @return true if valve 2 is open (false = heating warm water; tank true = heating radiators)
+    */
+   Boolean getValve2Position();
 
 }

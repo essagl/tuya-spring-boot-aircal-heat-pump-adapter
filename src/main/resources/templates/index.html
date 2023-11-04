@@ -30,11 +30,27 @@
 <div class="container bg-light">
     <div class="row">
         <div class="col">
-            <div class="mt-2 bg-info">
-                <label>&nbsp;Indoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.getIndoorTemp()}"></span><label>&nbsp;℃</label>
+            <div class="mt-2 h5">
+                <label>Indoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.getIndoorTemp()}"></span><label>&nbsp;℃</label>
             </div>
-            <div class="bg-info">
-                <label>&nbsp;Outdoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.getOutdoorTemp()}"></span><label>&nbsp;℃</label>
+            <div class="h5">
+                <label>Outdoor Temp&nbsp;</label><span class="font-weight-bold" th:text="${heatingLogic.getOutdoorTemp()}"></span><label>&nbsp;℃</label>
+            </div>
+            <div class="h5">
+                <label>Hot Water Temp&nbsp;</label><span id="hotWaterTemp" class="font-weight-bold" th:text="${heatingLogic.getEffectiveHotWaterTemp()}"></span><label>&nbsp;℃</label>
+            </div>
+            <div class="h5">
+                <label>Working mode&nbsp;</label>
+                <span th:if="${heatingLogic.getWorkingMode() == 'HOT WATER'}" >
+                        <i id="shower" class="fa fa-shower"></i>
+                    </span>
+                <span th:if="${heatingLogic.getWorkingMode() == 'HEATING'}" >
+                        <i id="sun" class="fa fa-sun"></i>
+                    </span>
+                <span th:if="${heatingLogic.getWorkingMode() == 'HOT WATER AND HEATING'}" >
+                        <i id="shower" class="fa fa-shower"></i>
+                        <i id="sun" class="fa fa-sun"></i>
+                </span>
             </div>
         </div>
     </div>
@@ -44,9 +60,36 @@
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script>
 
+    function requestValvePosition(){
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                const valveOpen = JSON.parse(this.responseText);
+                if (fan.classList.contains("fa-spin")) {
+                    if(valveOpen === true){
+                        document.getElementById("sun").classList.add("fa-fade");
+                        document.getElementById("shower").classList.remove("fa-fade");
+                    } else {
+                        document.getElementById("sun").classList.remove("fa-fade");
+                        document.getElementById("shower").classList.add("fa-fade");
+                    }
+                } else {
+                    document.getElementById("sun").classList.remove("fa-fade");
+                    document.getElementById("shower").classList.remove("fa-fade");
+                }
+            }
+
+        }
+        request.open("GET", "/heatPump/valve2Position", true);
+        request.send();
+    }
+
     setTimeout(function(){
         window.location.reload();
     }, 60000);
+
+    setInterval(function () {requestValvePosition()}, 30000) ;
+    requestValvePosition();
 </script>
 
 </body>

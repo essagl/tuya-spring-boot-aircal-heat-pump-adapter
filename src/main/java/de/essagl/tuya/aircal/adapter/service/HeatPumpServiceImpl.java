@@ -200,4 +200,14 @@ public class HeatPumpServiceImpl implements HeatPumpService {
             return new ControlParameterEmpty();
         }
     }
+
+    @Override
+    public Boolean getValve1Position() {
+        return getControlParameter().getC38().getValue() == 1.0;
+    }
+
+    @Override
+    public Boolean getValve2Position() {
+        return getControlParameter().getC39().getValue() == 1.0;
+    }
 }

@@ -29,7 +29,10 @@ public class IndexWebPageController {
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
-
+        heatingLogic.setEffectiveHotWaterTemp(heatPumpService.getServiceWaterTemp().getValue());
+        setHeatPumpMode(heatingLogic);
+        heatingLogic.setFanSpeed(heatPumpService.getFanSpeed().getValue());
+        heatingLogic.setPowerConsumption(heatPumpService.getPowerConsumption().getValue());
         model.addAttribute("heatingLogic", heatingLogic);
         return "index";
     }
@@ -42,5 +45,25 @@ public class IndexWebPageController {
         heatingLogicService.setStandbyFlowTemperature(heatingLogic.getStandbyFlowTemp());
         heatingLogicService.setIndoorSetTemperature(heatingLogic.getTargetIndoorTemp());
         return "saved";
+    }
+
+    private void setHeatPumpMode(HeatingLogic heatingLogic) {
+        switch (heatPumpService.getMode().getValue()){
+            case "workingModeHotWater":
+                heatingLogic.setWorkingMode("HOT WATER");
+                break;
+            case "workingModeHotWaterAndHeating":
+                heatingLogic.setWorkingMode("HOT WATER AND HEATING");
+                break;
+            case "workingModeHeating":
+                heatingLogic.setWorkingMode("HEATING");
+                break;
+            case "workingModeCooling":
+                heatingLogic.setWorkingMode("COOLING");
+                break;
+            case "workingModeHotWaterAndCooling":
+                heatingLogic.setWorkingMode("HOT WATER AND COOLING");
+                break;
+        }
     }
 }
