@@ -4,11 +4,14 @@ import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
 import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.HeatingLogic;
 import de.essagl.tuya.aircal.adapter.service.operationalControl.HeatingLogicService;
+import de.essagl.tuya.aircal.adapter.web.mvc.model.SetupData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping({ "/", "/index" })
@@ -24,8 +27,15 @@ public class IndexWebPageController {
     }
 
     @GetMapping
-    public String main(Model model) {
+    public String main(Model model) throws IOException {
         HeatingLogic heatingLogic = new HeatingLogic();
+        // read properties file and check if already configured
+        if (!configured()){
+            SetupData setupdata = SetupController.getSetupDataFromFile();
+            model.addAttribute("setupData", setupdata);
+            return "setup";
+        }
+
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
@@ -35,6 +45,10 @@ public class IndexWebPageController {
         heatingLogic.setPowerConsumption(heatPumpService.getPowerConsumption().getValue());
         model.addAttribute("heatingLogic", heatingLogic);
         return "index";
+    }
+
+    private boolean configured() {
+        return false;
     }
 
     @PostMapping

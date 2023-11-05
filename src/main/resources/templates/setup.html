@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Heatlogic setup page</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, charset=UTF-8" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.4.0/css/all.css} "/>
+    <link rel="icon" type="image/ico" th:href="@{favicon.ico}">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <span class="navbar-brand" id=time></span>
+            <span class="navbar-brand" style="color:#F30A03FF;">Setup</span>
+        </div>
+    </nav>
+</div>
+
+<div class="container bg-light">
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-2 text-primary">Heating Logic setup</h5>
+            <form method="post" th:action="@{/setup}" th:object="${setupData}">
+                <div class="h5">
+                    <label for="connectorAk">Connector Access ID&nbsp;</label><input type="text" id="connectorAk" class="font-weight-bold" th:field="${setupData.connectorAccessId}"></input>
+                </div>
+                <div class="h5">
+                    <label for="connectorSk">Connector Secret&nbsp&nbsp;</label><input type="text" id="connectorSk" class="font-weight-bold" th:field="${setupData.connectorSecret}"></input>
+                </div>
+                <div class="h5">
+                    <label for="connectorRegion">Connector Region&nbsp;</label><input type="text" id="connectorRegion" class="font-weight-bold" th:field="${setupData.connectorRegion}"></input>
+                </div>
+                <hr/>
+                <div class="h5">
+                    <label for="heatPumpDeviceId">Heat Pump Device Id&nbsp;</label><input type="text" id="heatPumpDeviceId" class="font-weight-bold" th:field="${setupData.heatPumpDeviceId}"></input>
+                </div>
+                <div class="h5">
+                    <label for="indoorThermometerDeviceId">Indoor Thermometer Device Id&nbsp;</label><input type="text" id="indoorThermometerDeviceId" class="font-weight-bold" th:field="${setupData.indoorThermometerDeviceId}"></input>
+                </div>
+                <hr/>
+                <div class="h5">
+                    <label for="heatPumpControlPanelVersion">Heat Pump Panel Version&nbsp;</label><input type="text" id="heatPumpControlPanelVersion" class="font-weight-bold" th:field="${setupData.heatPumpControlPanelVersion}"></input><label>&nbsp;201/202</label>
+                </div>
+                <div class="h5">
+                    <label for="heatingLogicMode">Heating Logic&nbsp;</label><input type="text" id="heatingLogicMode" class="font-weight-bold" th:field="${setupData.heatingLogicMode}"></input><label>&nbsp;ON/OFF</label>
+                </div>
+                <div class="h5">
+                    <label for="heatingLogicRunningRate">Heating Logic running Rate&nbsp;</label><input type="number" id="heatingLogicRunningRate" class="font-weight-bold" th:field="${setupData.heatingLogicRunningRate}"></input><label>&nbsp;Millis</label>
+                </div>
+                <div class="h5">
+                    <label for="indoorDefaultSetTemperature">Indoor Set Temperature&nbsp;</label><input type="number" id="indoorDefaultSetTemperature" class="font-weight-bold" th:field="${setupData.indoorDefaultSetTemperature}"></input><label>&nbsp;℃</label>
+                </div>
+                <div class="h5">
+                    <label for="heatingFlowTemperature">Heating Flow Temperature&nbsp;</label><input type="number" id="heatingFlowTemperature" class="font-weight-bold" th:field="${setupData.heatingFlowTemperature}"></input><label>&nbsp;℃</label>
+                </div>
+                <div class="h5">
+                    <label for="standbyFlowTemperature">Standby Flow Temperature&nbsp;</label><input type="number" id="standbyFlowTemperature" class="font-weight-bold" th:field="${setupData.standbyFlowTemperature}"></input><label>&nbsp;℃</label>
+                </div>
+                <button class="btn btn-primary" type="submit">Save values</button>
+            </form>
+            <button class="mt-2 btn btn-primary" onclick="window.location.href='/setup';">Reset</button>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function setDate(){
+        // get a new date (locale machine date time)
+        document.getElementById('time').innerHTML = new Date().toLocaleString("de-DE");
+    }
+    setDate();
+    setInterval(function () {setDate()}, 1000) ;
+</script>
+</body>
+</html>
