@@ -20,6 +20,7 @@ public class SetupData {
     private double heatingFlowTemperature=40;
     private double standbyFlowTemperature=22;
     private String ipAddress;
+    private String hint;
     public boolean isEmpty(){
         return connectorAccessId.isEmpty()
                 || connectorSecret.isEmpty()
