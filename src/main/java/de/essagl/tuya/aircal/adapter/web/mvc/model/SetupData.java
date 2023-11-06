@@ -20,4 +20,11 @@ public class SetupData {
     private double heatingFlowTemperature=40;
     private double standbyFlowTemperature=22;
     private String ipAddress;
+    public boolean isEmpty(){
+        return connectorAccessId.isEmpty()
+                || connectorSecret.isEmpty()
+                || heatPumpDeviceId.isEmpty()
+                || indoorThermometerDeviceId.isEmpty()
+                || connectorRegion.isEmpty();
+    }
 }

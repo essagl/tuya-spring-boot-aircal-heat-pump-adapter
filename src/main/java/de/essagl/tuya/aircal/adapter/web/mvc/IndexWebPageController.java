@@ -47,8 +47,9 @@ public class IndexWebPageController {
         return "index";
     }
 
-    private boolean configured() {
-        return false;
+    private boolean configured() throws IOException {
+        SetupData setupData = SetupController.getSetupDataFromFile();
+        return !setupData.isEmpty();
     }
 
     @PostMapping

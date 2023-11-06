@@ -1,6 +1,5 @@
 package de.essagl.tuya.aircal.adapter.web.mvc;
 
-import de.essagl.tuya.aircal.adapter.web.mvc.model.HeatingLogic;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.SetupData;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -25,10 +24,9 @@ public class SetupController {
     }
 
 
-
     @PostMapping
-    public String save(SetupData setupData, Model model) {
-        storeSetupDataInFile();
+    public String save(SetupData setupData, Model model) throws IOException {
+        storeSetupDataInFile(setupData);
         model.addAttribute("setupData", setupData);
         return "setup";
     }
@@ -41,12 +39,32 @@ public class SetupController {
         setupData.setConnectorSecret(properties.getProperty("connector.sk"));
         setupData.setConnectorRegion(properties.getProperty("connector.region"));
         setupData.setHeatPumpControlPanelVersion(properties.getProperty("heatPumpControlPanelVersion"));
+        setupData.setHeatingLogicMode(properties.getProperty("heatingLogicMode"));
+        setupData.setHeatingLogicRunningRate(Integer.parseInt(properties.getProperty("heatingLogicRunningRate")));
+        setupData.setIndoorDefaultSetTemperature(Double.parseDouble(properties.getProperty("indoorDefaultSetTemperature")));
+        setupData.setHeatingFlowTemperature(Double.parseDouble(properties.getProperty("heatingFlowTemperature")));
+        setupData.setStandbyFlowTemperature(Double.parseDouble(properties.getProperty("standbyFlowTemperature")));
+        setupData.setIpAddress(properties.getProperty("ipAddress"));
+        setupData.setHeatPumpDeviceId(properties.getProperty("heatPumpDeviceId"));
+        setupData.setIndoorThermometerDeviceId(properties.getProperty("indoorThermometerDeviceId"));
         // ...
         return setupData;
     }
 
-    private void storeSetupDataInFile() {
-
-        return;
+    private void storeSetupDataInFile(SetupData setupData) throws IOException {
+        Properties properties = new Properties();
+        properties.setProperty("connector.ak", setupData.getConnectorAccessId());
+        properties.setProperty("connector.sk", setupData.getConnectorSecret());
+        properties.setProperty("connector.region", setupData.getConnectorRegion());
+        properties.setProperty("heatPumpControlPanelVersion", setupData.getHeatPumpControlPanelVersion());
+        properties.setProperty("heatingLogicMode", setupData.getHeatingLogicMode());
+        properties.setProperty("heatingLogicRunningRate", String.valueOf(setupData.getHeatingLogicRunningRate()));
+        properties.setProperty("indoorDefaultSetTemperature", String.valueOf(setupData.getIndoorDefaultSetTemperature()));
+        properties.setProperty("heatingFlowTemperature", String.valueOf(setupData.getHeatingFlowTemperature()));
+        properties.setProperty("standbyFlowTemperature", String.valueOf(setupData.getStandbyFlowTemperature()));
+        properties.setProperty("heatPumpDeviceId", setupData.getHeatPumpDeviceId());
+        properties.setProperty("indoorThermometerDeviceId", setupData.getIndoorThermometerDeviceId());
+        FileSystemResource fileSystemResource = new FileSystemResource("/home/pi/heatlogic/application.properties");
+        properties.store(fileSystemResource.getOutputStream(), "HeatLogic Configuration");
     }
 }

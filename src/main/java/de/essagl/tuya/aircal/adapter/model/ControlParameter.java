@@ -74,230 +74,230 @@ public interface ControlParameter {
     
     default DoubleLabelValueUnit getC00(){
         return c00;
-    };
+    }
 
     default DoubleLabelValueUnit getC01(){
         return c01;
-    };
+    }
 
     default DoubleLabelValueUnit getC02(){
         return c02;
-    };
+    }
 
     default DoubleLabelValueUnit getC03(){
         return c03;
-    };
+    }
 
     default DoubleLabelValueUnit getC04() {
         return c04;
-    };
+    }
 
     default DoubleLabelValueUnit getC05() {
         return c05;
-    };
+    }
 
     default DoubleLabelValueUnit getC06() {
         return c06;
-    };
+    }
 
     default DoubleLabelValueUnit getC07() {
         return c07;
-    };
+    }
 
     default DoubleLabelValueUnit getC08() {
         return c08;
-    };
+    }
 
     default DoubleLabelValueUnit getC09() {
         return c09;
-    };
+    }
 
     default DoubleLabelValueUnit getC10() {
         return c10;
-    };
+    }
 
     default DoubleLabelValueUnit getC11() {
         return c11;
-    };
+    }
 
     default DoubleLabelValueUnit getC12() {
         return c12;
-    };
+    }
 
     default DoubleLabelValueUnit getC13() {
         return c13;
-    };
+    }
 
     default DoubleLabelValueUnit getC14() {
         return  c14;
-    };
+    }
 
     default DoubleLabelValueUnit getC15() {
         return c15;
-    };
+    }
 
     default DoubleLabelValueUnit getC16() {
         return c16;
-    };
+    }
 
     default DoubleLabelValueUnit getC17() {
         return c17;
-    };
+    }
 
     default DoubleLabelValueUnit getC18() {
         return c18;
-    };
+    }
 
     default DoubleLabelValueUnit getC19() {
         return c19;
-    };
+    }
 
     default DoubleLabelValueUnit getC20() {
         return c20;
-    };
+    }
 
     default DoubleLabelValueUnit getC21() {
         return c21;
-    };
+    }
 
     default DoubleLabelValueUnit getC22() {
         return c22;
-    };
+    }
 
     default DoubleLabelValueUnit getC23() {
         return c23;
-    };
+    }
 
     default DoubleLabelValueUnit getC24() {
         return c24;
-    };
+    }
 
     default DoubleLabelValueUnit getC25() {
         return c25;
-    };
+    }
 
     default DoubleLabelValueUnit getC26() {
         return c26;
-    };
+    }
 
     default DoubleLabelValueUnit getC27() {
         return c27;
-    };
+    }
 
     default DoubleLabelValueUnit getC28() {
         return  c28;
-    };
+    }
 
     default DoubleLabelValueUnit getC29() {
         return c29;
-    };
+    }
 
     default DoubleLabelValueUnit getC30() {
         return c30;
-    };
+    }
 
     // next byte array
     default DoubleLabelValueUnit getC31() {
         return c31;
-    };
+    }
 
     default DoubleLabelValueUnit getC32() {
         return c32;
-    };
+    }
 
     default DoubleLabelValueUnit getC33() {
         return c33;
-    };
+    }
 
     default DoubleLabelValueUnit getC34() {
         return c34;
-    };
+    }
 
     default DoubleLabelValueUnit getC35() {
         return c35;
-    };
+    }
 
     default DoubleLabelValueUnit getC36() {
         return c36;
-    };
+    }
 
     default DoubleLabelValueUnit getC37() {
         return c37;
-    };
+    }
 
     default DoubleLabelValueUnit getC38() {
         return c38;
-    };
+    }
 
     default DoubleLabelValueUnit getC39() {
         return c39;
-    };
+    }
 
     default DoubleLabelValueUnit getC40() {
         return c40;
-    };
+    }
 
     default DoubleLabelValueUnit getC41() {
         return c41;
-    };
+    }
 
     default DoubleLabelValueUnit getC42() {
         return c42;
-    };
+    }
 
     default DoubleLabelValueUnit getC43() {
         return c43;
-    };
+    }
 
     default DoubleLabelValueUnit getC44() {
         return c44;
-    };
+    }
 
     default DoubleLabelValueUnit getC45() {
         return c45;
-    };
+    }
 
     default DoubleLabelValueUnit getC46() {
         return c46;
-    };
+    }
 
     default DoubleLabelValueUnit getC47() {
         return c47;
-    };
+    }
 
     default DoubleLabelValueUnit getC48() {
         return c48;
-    };
+    }
 
     default DoubleLabelValueUnit getC49() {
         return c49;
-    };
+    }
 
     default DoubleLabelValueUnit getC50() {
         return c50;
-    };
+    }
 
     default DoubleLabelValueUnit getC51() {
         return c51;
-    };
+    }
 
     default DoubleLabelValueUnit getC52() {
         return c52;
-    };
+    }
 
     default DoubleLabelValueUnit getC53() {
         return c53;
-    };
+    }
 
     default DoubleLabelValueUnit getC54() {
         return c54;
-    };
+    }
 
     default DoubleLabelValueUnit getC55() {
         return c55;
-    };
+    }
 
     default DoubleLabelValueUnit getC56() {
         return c56;
-    };
+    }
 }
