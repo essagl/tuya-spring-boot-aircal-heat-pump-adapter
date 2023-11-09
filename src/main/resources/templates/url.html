@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Server Url</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, charset=UTF-8" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.6.2/css/bootstrap.min.css} "/>
+    <link rel="icon" type="image/ico" th:href="@{favicon.ico}">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <span class="navbar-brand" id=time></span>
+            <span class="navbar-brand" style="color:#F30A03FF;">Server Url</span>
+            <span class="navbar-brand"><a href="/">Home</a> </span>
+         </div>
+    </nav>
+</div>
+
+<div class="container bg-light">
+    <div class="row">
+        <div class="col">
+            <div class="mt-2 h2">
+                <span id="url" class="font-weight-bold" th:text="'http://'+${setupData.ipAddress}+'/:8080'"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setDate(){
+        // get a new date (locale machine date time)
+        document.getElementById('time').innerHTML = new Date().toLocaleString("de-DE");
+    }
+    setDate();
+    setInterval(function () {setDate()}, 1000) ;
+</script>
+</body>
+</html>

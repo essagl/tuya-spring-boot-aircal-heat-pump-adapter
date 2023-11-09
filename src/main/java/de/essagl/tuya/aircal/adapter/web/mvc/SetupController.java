@@ -16,11 +16,16 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 @Controller
-@RequestMapping({"/setup"})
+@RequestMapping()
 public class SetupController {
 
-
-    @GetMapping
+    @GetMapping({"/url"})
+    public String url(Model model) throws IOException {
+        SetupData setupdata = getSetupDataFromFile();
+        model.addAttribute("setupData", setupdata);
+        return "url";
+    }
+    @GetMapping({"/setup"})
     public String main(Model model) throws IOException {
         SetupData setupdata = getSetupDataFromFile();
         model.addAttribute("setupData", setupdata);
@@ -28,7 +33,7 @@ public class SetupController {
     }
 
 
-    @PostMapping
+    @PostMapping({"/setup"})
     public String save(SetupData setupData, Model model) throws IOException {
         storeSetupDataInFile(setupData);
         model.addAttribute("setupData", setupData);
