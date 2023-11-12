@@ -18,7 +18,7 @@ import java.util.Properties;
 @Controller
 @RequestMapping()
 public class SetupController {
-
+    private final static String path = System.getProperty("user.home")+"/heatlogic/application.properties";
     @GetMapping({"/url"})
     public String url(Model model) throws IOException {
         SetupData setupdata = getSetupDataFromFile();
@@ -41,7 +41,7 @@ public class SetupController {
     }
 
     public static SetupData getSetupDataFromFile() throws IOException {
-        FileSystemResource fileSystemResource = new FileSystemResource("/home/pi/heatlogic/application.properties");
+        FileSystemResource fileSystemResource = new FileSystemResource(path);
         Properties properties = new Properties();
         properties.load(fileSystemResource.getInputStream());
         SetupData setupData = new SetupData();
@@ -74,7 +74,7 @@ public class SetupController {
         properties.setProperty("standbyFlowTemperature", String.valueOf(setupData.getStandbyFlowTemperature()));
         properties.setProperty("heatPumpDeviceId", setupData.getHeatPumpDeviceId());
         properties.setProperty("indoorThermometerDeviceId", setupData.getIndoorThermometerDeviceId());
-        FileSystemResource fileSystemResource = new FileSystemResource("/home/pi/heatlogic/application.properties");
+        FileSystemResource fileSystemResource = new FileSystemResource(path);
         properties.store(fileSystemResource.getOutputStream(), "HeatLogic Configuration");
         setupData.setHint("Restart for the changes to take effect");
     }
