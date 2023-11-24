@@ -29,11 +29,12 @@ public class HeatLogicWebPageController {
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
         heatingLogic.setIndoorTemp(thermometerService.getTemperature().getValue());
         heatingLogic.setOutdoorTemp(heatPumpService.getOutsideTemp().getValue());
-
+        heatingLogic.setNightMode(heatingLogicService.getNightMode().getValue());
         heatingLogic.setHeatingLogicMode(heatingLogicService.getRunningModeValue().getValue());
         heatingLogic.setTargetIndoorTemp(heatingLogicService.getIndoorSetTemperatureValue().getValue());
         heatingLogic.setStandbyFlowTemp(heatingLogicService.getStandbyFlowTemperatureValue().getValue());
         heatingLogic.setHeatingFlowTemp(heatingLogicService.getHeatingFlowTemperatureValue().getValue());
+        heatingLogic.setNightModeActive(heatingLogicService.isNightModeActive());
         model.addAttribute("heatingLogic", heatingLogic);
         return "heatlogic";
     }
@@ -42,10 +43,13 @@ public class HeatLogicWebPageController {
     public String save(HeatingLogic heatingLogic, Model model) {
         model.addAttribute("heatingLogic", heatingLogic);
         heatingLogic.setHeatPumpOnline(heatPumpService.getDeviceInformation().getOnline());
+        heatingLogic.setNightModeActive(heatingLogicService.isNightModeActive());
         heatingLogicService.setRunningMode(heatingLogic.getHeatingLogicMode());
         heatingLogicService.setHeatingFlowTemperature(heatingLogic.getHeatingFlowTemp());
         heatingLogicService.setStandbyFlowTemperature(heatingLogic.getStandbyFlowTemp());
         heatingLogicService.setIndoorSetTemperature(heatingLogic.getTargetIndoorTemp());
+        heatingLogicService.setNightMode(heatingLogic.getNightMode());
+
         return "saved";
     }
 }

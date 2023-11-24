@@ -3,6 +3,7 @@ package de.essagl.tuya.aircal.adapter.web.mvc.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 @Setter
 @Getter
@@ -22,10 +23,10 @@ public class SetupData {
     private String ipAddress;
     private String hint;
     public boolean isEmpty(){
-        return connectorAccessId.isEmpty()
-                || connectorSecret.isEmpty()
-                || heatPumpDeviceId.isEmpty()
-                || indoorThermometerDeviceId.isEmpty()
-                || connectorRegion.isEmpty();
+        return StringUtils.isNotBlank(connectorAccessId)
+                || StringUtils.isNotBlank(connectorSecret)
+                || StringUtils.isNotBlank(heatPumpDeviceId)
+                || StringUtils.isNotBlank(indoorThermometerDeviceId)
+                || StringUtils.isNotBlank(connectorRegion);
     }
 }

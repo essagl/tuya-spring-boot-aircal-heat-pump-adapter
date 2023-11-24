@@ -1,6 +1,7 @@
 package de.essagl.tuya.aircal.adapter.web;
 
 
+import de.essagl.tuya.aircal.adapter.ability.model.BooleanLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.ability.model.DoubleLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.ability.model.StringLabelValueUnit;
 import de.essagl.tuya.aircal.adapter.service.operationalControl.HeatingLogicService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 
 
 /**
@@ -70,6 +72,65 @@ public class HeatLogicController {
         return heatingLogicService.getRunningModeValue();
     }
 
+    @Operation(summary = "Enable or disable the night mode.")
+    @PostMapping("/night_mode/{value}")
+    public void setNightMode(@Parameter(required = true,
+            description = "Enable or disable the night mode.",
+            schema = @Schema(allowableValues = { "ON","OFF"}))  @PathVariable("value") String value) {
+        heatingLogicService.setNightMode(value);
+    }
+    @Operation(summary = "Get the night mode value")
+    @GetMapping("/night_mode")
+    public StringLabelValueUnit getNightMode() {
+        return heatingLogicService.getNightMode();
+    }
 
+    @Operation(summary = "Is the night mode active")
+    @GetMapping("/night_mode_active")
+    public BooleanLabelValueUnit getNightModeActive() {
+        BooleanLabelValueUnit nightModeActive = new BooleanLabelValueUnit();
+        nightModeActive.setValue(heatingLogicService.isNightModeActive());
+        nightModeActive.setKey("nightModeActive");
+        nightModeActive.setUnit("true/false");
+        return nightModeActive;
+    }
 
+    @Operation(summary = "Set the night mode start hour and minutes in hh:mm ")
+    @PostMapping("/night_mode_start/{value}")
+    public void setNightModeStart(@Parameter(required = true, description = "night mode start hour and minutes") @PathVariable("value") String value) throws ParseException {
+        heatingLogicService.setNightModeStart(value);
+    }
+    @Operation(summary = "Get the value the night mode start hour and minutes in hh:mm")
+    @GetMapping("/night_mode_start")
+    public StringLabelValueUnit getNightModeStart() {
+        return heatingLogicService.getNightModeStart();
+    }
+
+    @Operation(summary = "Set the night mode end hour and minutes in hh:mm")
+    @PostMapping("/night_mode_end/{value}")
+    public void setNightModeEnd(@Parameter(required = true, description = "night mode end hour and minutes") @PathVariable("value") String value) throws ParseException {
+        heatingLogicService.setNightModeEnd(value);
+    }
+    @Operation(summary = "Get the value the night mode end hour and minutes in hh:mm (of the next day)")
+    @GetMapping("/night_mode_end")
+    public StringLabelValueUnit getNightModeEnd() {
+        return heatingLogicService.getNightModeEnd();
+    }
+
+    @Operation(summary = "Force hot water heating. Returns true if the command was accepted.")
+    @PostMapping("/forceHotWaterHeating")
+    public boolean forceHotWaterHeating() {
+        return heatingLogicService.forceHotWaterHeating();
+    }
+    @Operation(summary = "Check if force hot water heating is active")
+    @GetMapping("/isForceHotWaterHeating")
+    public boolean isForceHotWaterHeating() {
+        return heatingLogicService.isForceHotWaterHeating();
+    }
+
+    @Operation(summary = "Check if force hot water heating is possible")
+    @GetMapping("/isForceHotWaterHeatingPossible")
+    public boolean isForceHotWaterHeatingPossible() {
+        return heatingLogicService.isForceHotWaterHeatingPossible();
+    }
 }

@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import static org.mockito.Mockito.*;
 
@@ -29,15 +30,15 @@ public class HeatingLogicServiceTest {
     private HeatingLogicService heatingLogicService;
 
     @BeforeEach
-    public void setup() throws IOException {
+    public void setup() throws ParseException {
         MockitoAnnotations.openMocks(this);
         heatingLogicService = new HeatingLogicService(
-                deviceService, heatPumpService,
+                heatPumpService,
                 thermometerService,
                 18.0,
                 HeatingLogicService.Mode.ON,
                 50.0,
-                20.0
+                20.0, "22:00", "06:00", "OFF"
         );
     }
 

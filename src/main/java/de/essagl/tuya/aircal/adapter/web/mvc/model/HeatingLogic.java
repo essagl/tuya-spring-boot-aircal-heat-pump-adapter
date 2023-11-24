@@ -19,4 +19,6 @@ public class HeatingLogic {
     private double heatingFlowTemp;
     private double standbyFlowTemp;
     private boolean heatPumpOnline;
+    private String nightMode;
+    private boolean nightModeActive;
 }

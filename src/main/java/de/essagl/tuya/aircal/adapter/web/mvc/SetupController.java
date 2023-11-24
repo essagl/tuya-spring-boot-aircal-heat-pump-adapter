@@ -42,6 +42,10 @@ public class SetupController {
 
     public static SetupData getSetupDataFromFile() throws IOException {
         FileSystemResource fileSystemResource = new FileSystemResource(path);
+        if (!fileSystemResource.exists()) {
+            fileSystemResource.getFile().getParentFile().mkdirs();
+            fileSystemResource.getFile().createNewFile();
+        }
         Properties properties = new Properties();
         properties.load(fileSystemResource.getInputStream());
         SetupData setupData = new SetupData();
@@ -50,14 +54,25 @@ public class SetupController {
         setupData.setConnectorRegion(properties.getProperty("connector.region"));
         setupData.setHeatPumpControlPanelVersion(properties.getProperty("heatPumpControlPanelVersion"));
         setupData.setHeatingLogicMode(properties.getProperty("heatingLogicMode"));
-        setupData.setHeatingLogicRunningRate(Integer.parseInt(properties.getProperty("heatingLogicRunningRate")));
-        setupData.setIndoorDefaultSetTemperature(Double.parseDouble(properties.getProperty("indoorDefaultSetTemperature")));
-        setupData.setHeatingFlowTemperature(Double.parseDouble(properties.getProperty("heatingFlowTemperature")));
-        setupData.setStandbyFlowTemperature(Double.parseDouble(properties.getProperty("standbyFlowTemperature")));
+        try {
+            setupData.setHeatingLogicRunningRate(Integer.parseInt(properties.getProperty("heatingLogicRunningRate")));
+            setupData.setIndoorDefaultSetTemperature(Double.parseDouble(properties.getProperty("indoorDefaultSetTemperature")));
+            setupData.setHeatingFlowTemperature(Double.parseDouble(properties.getProperty("heatingFlowTemperature")));
+            setupData.setStandbyFlowTemperature(Double.parseDouble(properties.getProperty("standbyFlowTemperature")));
+
+        } catch (NumberFormatException e) {
+            setupData.setHeatingLogicRunningRate(60000);
+            setupData.setIndoorDefaultSetTemperature(21.0);
+            setupData.setHeatingFlowTemperature(45.0);
+            setupData.setStandbyFlowTemperature(35.0);
+            setupData.setHint("Please check your configuration");
+        }
+        if (properties.getProperty("ipAddress") == null || properties.getProperty("ipAddress").isEmpty()) {
+            setupData.setIpAddress(getLocalHostLANAddress().getHostAddress());
+        }
         setupData.setIpAddress(properties.getProperty("ipAddress"));
         setupData.setHeatPumpDeviceId(properties.getProperty("heatPumpDeviceId"));
         setupData.setIndoorThermometerDeviceId(properties.getProperty("indoorThermometerDeviceId"));
-        setupData.setIpAddress(getLocalHostLANAddress().getHostAddress());
         return setupData;
     }
 

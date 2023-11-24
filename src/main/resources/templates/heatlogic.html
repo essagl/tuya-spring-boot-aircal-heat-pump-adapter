@@ -147,6 +147,24 @@
                     <label for="standbyFlowTempRange">Standby Flow Temp&nbsp;</label><span id="standbyFlowTemp"></span><label>&nbsp;℃</label>
                     <input type="range" min="10" max="55" th:field="*{standbyFlowTemp}" class="slider" id="standbyFlowTempRange">
                 </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                        <h5 class="mt-2 text-primary">Heat Pump settings</h5>
+
+                        <span class="h5">Night mode </span>
+                        <label class="switch h5">
+                            <input id="nightmodeswitch" type="checkbox" checked th:if="*{nightMode == 'ON'}">
+                            <input id="nightmodeswitch" type="checkbox"  th:if="*{nightMode == 'OFF'}">
+                            <span class="tslider round"></span>
+                        </label>
+                        <span id="nightmodestatus" class="h5"></span>
+                        <input id="nightMode" type="hidden" th:field="*{nightMode}">
+
+                    </div>
+                </div>
+
                 <button class="btn btn-primary" type="submit">Set new values</button>
             </form>
             <button class="mt-2 btn btn-primary" onclick="window.location.href='/heatlogic';">Reset</button>
@@ -198,6 +216,26 @@
     } else {
         outputtext.innerHTML = "OFF";
     }
+
+    const inputNightMode = document.getElementById('nightmodeswitch');
+    const outputtextNightMode = document.getElementById('nightmodestatus');
+    const nightMode = document.getElementById('nightMode');
+    inputNightMode.addEventListener('change',function(){
+        if(this.checked) {
+            outputtextNightMode.innerHTML = "ON";
+            nightMode.value = "ON";
+        } else {
+            outputtextNightMode.innerHTML = "OFF";
+            nightMode.value = "OFF";
+        }
+        document.getElementById("flowPumpForm").submit()
+    });
+    if(inputNightMode.checked) {
+        outputtextNightMode.innerHTML = "ON";
+    } else {
+        outputtextNightMode.innerHTML = "OFF";
+    }
+
     setTimeout(function(){
         window.location.reload();
     }, 60000);
