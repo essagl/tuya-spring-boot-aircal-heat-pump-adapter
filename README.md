@@ -8,7 +8,8 @@ See [www.aircalheatpump.com](https://www.aircalheatpump.com/product/detail/king-
 Should also be compatible with branded OEM heat pumps like the ones from [OEG](https://www.oeg.net/de/multifunktionale-leistungsgesteuerte-luft-wasser-waermepumpen?icp=tts)
 in Germany.
 
-**Note**: To enable the internal room thermometer of the heat pump, the system parameter P67 must be set to 1. In this case no external room thermometer is needed. 
+**Note**: To enable the internal room thermometer of the heat pump, the system parameter P67 must be set to 1. In this case no external room thermometer is needed, but the 
+heating water flow temperature is controlled by the heat pump's internal room thermometer and therefore the heating logic does not work and must be disabled.
 See application.properties how to use an external thermometer instead of the internal one(for example this one ![thermometer](documentation%2Fimages%2Fthermometer.jpg)). 
 Before the service can be used it is required that your heat pump and the thermometer is registered with the official Tuya Smart app 
 and a developer account is created for using the Tuya cloud services. 
