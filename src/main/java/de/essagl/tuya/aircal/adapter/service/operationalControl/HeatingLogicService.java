@@ -228,6 +228,10 @@ public class HeatingLogicService {
         if (runningMode == Mode.OFF){
             return;
         }
+        if (checkIsRunning){
+            log.info("Check routine already running. Skip this check");
+            return;
+        }
          if (!heatPumpService.getSwitch().getValue()){
             log.info("Device is OFF. Heating logic will not be applied.");
             return;
@@ -245,7 +249,10 @@ public class HeatingLogicService {
         } catch (Exception e){
             checkIsRunning = false;
             log.error("Exception {} occurred during computeAndSetTemperature processing!",e.getMessage());
+        } finally {
+            checkIsRunning = false;
         }
+
     }
 
     private void checkIfForceHotWaterHeatingTargetTempIsReached() {
@@ -272,6 +279,10 @@ public class HeatingLogicService {
             log.info("Heating Logic is disabled. Force hot water heating will not be applied.");
             return false;
         }
+        if (checkIsRunning){
+            log.info("Check routine is running. Force hot water heating will not be applied.");
+            return false;
+        }
         Double serviceWaterTemp = heatPumpService.getServiceWaterTemp().getValue();
         Double serviceWaterFlowTemp = heatPumpService.getServiceWaterFlowTemp().getValue();
         double tempDifference = serviceWaterFlowTemp - serviceWaterTemp;
@@ -289,7 +300,7 @@ public class HeatingLogicService {
     public boolean isForceHotWaterHeatingPossible(){
         Double serviceWaterTemp = heatPumpService.getServiceWaterTemp().getValue();
         Double serviceWaterFlowTemp = heatPumpService.getServiceWaterFlowTemp().getValue();
-        Double tempDifference = serviceWaterFlowTemp - serviceWaterTemp;
+        double tempDifference = serviceWaterFlowTemp - serviceWaterTemp;
         return tempDifference >= 2 && !forceHotWaterHeatingIsRunning && runningMode == Mode.ON;
     }
 
@@ -307,7 +318,7 @@ public class HeatingLogicService {
         if (isNightModeActive() ){
             if (heatingFlowTemperature > standbyFlowTemperature ) {
                 log.info("nightMode is active -> decrease heatingFlowTemperature to standby temp {}℃ ",standbyFlowTemperature.intValue());
-                setHeatingWaterFlowTemp(standbyFlowTemperature.intValue(),mode);
+                setHeatingWaterFlowTemp(standbyFlowTemperature,mode);
             }
             return;
         }
@@ -315,10 +326,10 @@ public class HeatingLogicService {
 
         if (indoorTemp < indoorSetTemperature  && !actualHeatingWaterFlowTemperature.equals(heatingFlowTemperature)) {
             log.info("indoorTemperatur {} is lower that the indoorTargetTemperatur {} -> increase heatingFlowTemperature to {}℃.",indoorTemp,indoorSetTemperature,heatingFlowTemperature.intValue());
-            setHeatingWaterFlowTemp(heatingFlowTemperature.intValue(),mode);
+            setHeatingWaterFlowTemp(heatingFlowTemperature,mode);
         } else if (indoorTemp >= indoorSetTemperature && !actualHeatingWaterFlowTemperature.equals(standbyFlowTemperature)) {
             log.info("indoorTemperatur {} is equal or greater than indoorTargetTemperatur {} -> decrease heatingFlowTemperature to {}℃ ",indoorTemp,indoorSetTemperature,standbyFlowTemperature.intValue());
-            setHeatingWaterFlowTemp(standbyFlowTemperature.intValue(),mode);
+            setHeatingWaterFlowTemp(standbyFlowTemperature,mode);
         } else {
             log.info("device mode {}, indoorTemperature {}℃, indoorTargetTemperatur {}℃, heatingFlowTemperature {}℃, standbyFlowTemperature {}℃, actualHeatingWaterFlowTemperature {}℃ \n " +
                             "No adjustment of waterHeatFlowTemperature needed.",
@@ -327,7 +338,7 @@ public class HeatingLogicService {
     }
 
     // set flow temperature in version 2.01 by using workaround for bug that the temp could not be set
-    private void setHeatingWaterFlowTemp(int heatingFlowTemp, String original_mode) {
+    private void setHeatingWaterFlowTemp(Double heatingFlowTemp, String original_mode) {
         if (heatPumpService.getControlPanelVersion().equals("201")) {
             if (original_mode.equals(heatPumpService.getWorkingModeValue("workingModeHotWater"))){
                 heatPumpService.setMode("workingModeHotWaterAndHeating");
@@ -335,27 +346,39 @@ public class HeatingLogicService {
                 heatPumpService.setMode("workingModeHotWater");
             }
         }
-        heatPumpService.setHeatingWaterFlowTemp(heatingFlowTemp);
+        heatPumpService.setHeatingWaterFlowTemp(heatingFlowTemp.intValue());
         if (heatPumpService.getControlPanelVersion().equals("201")) {
             // get the correct value to pass as parameter
             heatPumpService.setMode(heatPumpService.getWorkingModeKey(original_mode));
         }
-
-        this.actualHeatingWaterFlowTemperature = heatPumpService.getHeatingWaterFlowTemp().getValue();
+        this.actualHeatingWaterFlowTemperature = heatingFlowTemp;
     }
 
     public boolean isNightModeActive(){
         if (nightMode.equals("OFF")) {
             return false;
         }
-        String[] result1 = nightModeStart.split(":");
-        String[] result2 = nightModeEnd.split(":");
+        int startHour = Integer.decode(nightModeStart.split(":")[0]);
+        int startMinute = Integer.decode(nightModeStart.split(":")[1]);
+
+        int endHour = Integer.decode(nightModeEnd.split(":")[0]);
+        int endMinute = Integer.decode(nightModeEnd.split(":")[1]);
 
         ZonedDateTime now = Instant.now().atZone(ZoneId.systemDefault());
+        ZonedDateTime nightModeStart = Instant.now().atZone(ZoneId.systemDefault()).withHour(startHour).withMinute(startMinute);
+        ZonedDateTime nightModeEnd =   Instant.now().atZone(ZoneId.systemDefault()).withHour(endHour).withMinute(endMinute);
 
-        ZonedDateTime nightModeStart = Instant.now().atZone(ZoneId.systemDefault()).withHour(Integer.decode(result1[0])).withMinute(Integer.decode(result1[1]));
+        return checkNightModeRunning(now, nightModeStart, nightModeEnd);
+    }
 
-        ZonedDateTime nightModeEnd = Instant.now().atZone(ZoneId.systemDefault()).withHour(Integer.decode(result2[0])).withMinute(Integer.decode(result2[1])).plus(1, ChronoUnit.DAYS);
+    protected static boolean checkNightModeRunning(ZonedDateTime now, ZonedDateTime nightModeStart, ZonedDateTime nightModeEnd) {
+        if (nightModeStart.isAfter(nightModeEnd)){
+            if (now.isBefore(nightModeEnd)){
+                nightModeStart = nightModeStart.minus(1, ChronoUnit.DAYS);
+            } else {
+                nightModeEnd = nightModeEnd.plus(1, ChronoUnit.DAYS);
+            }
+        }
 
         return now.isAfter(nightModeStart) && now.isBefore(nightModeEnd);
     }
