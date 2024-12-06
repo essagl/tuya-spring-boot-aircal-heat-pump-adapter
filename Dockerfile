@@ -11,7 +11,7 @@ COPY . /app
 # Build the application
 RUN mvn package
 
-COPY /app/target/*.jar /app/heatpump.jar
+COPY target/*.jar heatpump.jar
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
