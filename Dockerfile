@@ -9,7 +9,7 @@ WORKDIR /app
 COPY . /app
 
 # Build the application
-RUN ./mvnw package
+RUN mvn package
 
 COPY /app/target/*.jar /app/heatpump.jar
 
