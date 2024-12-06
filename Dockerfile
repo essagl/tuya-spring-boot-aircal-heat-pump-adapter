@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:8-jdk-alpine
+FROM maven:3.8.6-openjdk-8
 
 
 # Set the working directory in the container
