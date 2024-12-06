@@ -71,13 +71,13 @@ public class HeatingLogicService {
 
     public HeatingLogicService(HeatPumpService heatPumpService,
                                IndoorThermometerService thermometerService,
-                               @Value("${indoorDefaultSetTemperature}")  Double indoorSetTemperature,
-                               @Value("${heatingLogicMode}")  Mode runningMode,
-                               @Value("${heatingFlowTemperature}")Double heatingFlowTemperature,
-                               @Value("${standbyFlowTemperature}")Double standbyFlowTemperature,
-                               @Value("${nightModeStartHour}")String nightModeStart,
-                               @Value("${nightModeEndHour}")String nightModeEnd,
-                               @Value("${nightMode}")String nightMode) throws ParseException {
+                               @Value("${indoorDefaultSetTemperature:21}")  Double indoorSetTemperature,
+                               @Value("${heatingLogicMode:OFF}")  Mode runningMode,
+                               @Value("${heatingFlowTemperature:45}")Double heatingFlowTemperature,
+                               @Value("${standbyFlowTemperature:30}")Double standbyFlowTemperature,
+                               @Value("${nightModeStartHour:22:30}")String nightModeStart,
+                               @Value("${nightModeEndHour:05:30}")String nightModeEnd,
+                               @Value("${nightMode:OFF}")String nightMode) throws ParseException {
         this.thermometerService = thermometerService;
         this.indoorSetTemperature = indoorSetTemperature;
         this.runningMode = runningMode;

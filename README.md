@@ -34,9 +34,10 @@ This method requires you to create a developer account on [iot.tuya.com](https:/
 3. Go to Cloud -> Development -> "MyProject" -> Service API -> "Go to authorize". "Select API" > click subscribe on "IoT Core", "Authorization", and "Smart Home Scene Linkage" in the dropdown. Click subscribe again on every service (also check your PopUp blocker). Click "basic edition" and "buy now" (basic edition is free). Check if the 3 services are listed under Cloud -> Projects -> "MyProject" -> API. If not, click "Add Authorization" and select them.
 4. Go to App -> App SDK -> Development in the nav drawer. Click "Create" and enter whatever you want for the package names and Channel ID (for the Android package name, you must enter a string beginning with `com.`). Take note of the **Channel ID** you entered. This is equivalent to the `schema` value needed in step 7. Ignore any app key and app secret values you see in this section as they are not used.
 5. Go to Cloud -> Development and click the project you created earlier. Then click "Link Device". Click the "Link devices by Apps" tab, and click "Add Apps". Check the app you just created and click "Ok".
-6. Put your devices into linking mode.  This process is specific to each type of device, find instructions in the Tuya Smart app. Usually this consists of turning it on and off several times or holding down a button.
+6. Put your devices into linking.  This process is specific to each type of device, find instructions in the Tuya Smart app. Usually this consists of turning it on and off several times or holding down a button.
 7. Your devices should link in under a minute and should be shown as under the devices tab of the cloud project you created. ![tuyaCloud.jpg](documentation%2Fimages%2FtuyaCloud.jpg)
-8. Add the missing parameters in the application.properties file (connector.ak, connector.sk and connector.region (EU) ....).
+8. To access all available information about the device, set the DP instruction mode for the heat pump device. In the default standard mode, only a subset of the needed data is available. 
+9. Add the missing parameters in the application.properties file (connector.ak, connector.sk and connector.region (EU) ....).
 
 ### Troubleshooting
 

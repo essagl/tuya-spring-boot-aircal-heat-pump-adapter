@@ -72,7 +72,12 @@ public class SetupController {
         }
         setupData.setIpAddress(properties.getProperty("ipAddress"));
         setupData.setHeatPumpDeviceId(properties.getProperty("heatPumpDeviceId"));
-        setupData.setIndoorThermometerDeviceId(properties.getProperty("indoorThermometerDeviceId"));
+        if (setupData.getIndoorThermometerDeviceId() == null || setupData.getIndoorThermometerDeviceId().isEmpty()) {
+            setupData.setHint("heatPumpDeviceId is missing in configuration file setting default value 0 disable the external thermometer");
+            setupData.setIndoorThermometerDeviceId("0");
+        } else {
+            setupData.setIndoorThermometerDeviceId(properties.getProperty("indoorThermometerDeviceId"));
+        }
         return setupData;
     }
 

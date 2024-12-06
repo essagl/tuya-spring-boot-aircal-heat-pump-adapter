@@ -23,10 +23,10 @@ public class SetupData {
     private String ipAddress;
     private String hint;
     public boolean isEmpty(){
-        return StringUtils.isNotBlank(connectorAccessId)
-                || StringUtils.isNotBlank(connectorSecret)
-                || StringUtils.isNotBlank(heatPumpDeviceId)
-                || StringUtils.isNotBlank(indoorThermometerDeviceId)
-                || StringUtils.isNotBlank(connectorRegion);
+        return StringUtils.isBlank(connectorAccessId)
+                || StringUtils.isBlank(connectorSecret)
+                || StringUtils.isBlank(heatPumpDeviceId)
+                || StringUtils.isBlank(indoorThermometerDeviceId)
+                || StringUtils.isBlank(connectorRegion);
     }
 }
