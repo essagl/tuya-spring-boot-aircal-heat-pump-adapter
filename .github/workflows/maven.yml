@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build Heat pump Controller
+name: Build Heat pump Controller and Push Docker Image
 
 on:
   push:
@@ -30,3 +30,14 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t ghcr.io/${{ github.repository }}/heatpump:latest .
+        docker push ghcr.io/${{ github.repository }}/heatpump:latest
