@@ -1,20 +1,16 @@
 # Use an official OpenJDK runtime as a parent image
-FROM maven:3.8.6-openjdk-8
+FROM openjdk:8-jdk-alpine
 
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
 
-# Build the application
-RUN mvn package
-
-COPY target/*.jar heatpump.jar
+COPY target/*.jar /app/heatpump.jar
+COPY README.md /app/heatpump.jar
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "heatpump.jar"]
+ENTRYPOINT ["java", "-jar", "/app/heatpump.jar"]
