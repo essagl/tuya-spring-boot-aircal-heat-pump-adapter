@@ -6,7 +6,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 
-COPY target/heatpump-*.jar /app/heatpump.jar
+COPY target/*.jar /app/heatpump.jar
 
 
 # Make port 8080 available to the world outside this container
