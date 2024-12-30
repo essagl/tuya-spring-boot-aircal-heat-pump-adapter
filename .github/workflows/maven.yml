@@ -39,19 +39,25 @@ jobs:
           name: build-artifacts
           path: target/
 
+  build_container:
+
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: target/
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build and push Docker image
         run: |
           docker build -t ghcr.io/${{ github.repository }}/heatpump:latest .
