@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   heatpump:
     image: ghcr.io/essagl/tuya-spring-boot-aircal-heat-pump-adapter/heatpump:latest
@@ -17,7 +15,7 @@ services:
       - "8086:8086"
     volumes:
       - influxdb_data:/var/lib/influxdb
-      - influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
     environment:
       - INFLUXDB_DB=telegraf
       - INFLUXDB_ADMIN_USER=admin
@@ -34,7 +32,7 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - influxdb/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./influxdb/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     environment:
       - HOSTNAME=telegraf
       - INFLUXDB_URL=http://influxdb:8086
