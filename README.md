@@ -28,7 +28,7 @@ The complete setup can be run as a docker stack. The docker-compose file is loca
 You need a docker installation on the machine that runs the heatpump adapter app to run the stack.
 
 After the services are started, the setup page can be accessed at the [http://localhost:8080](http://localhost:8080).
-Grafana Frontend ath Port 3000. 
+Grafana Frontend at Port 3000. 
 A default dashboard configuration is provided in the grafana directory which can be used after the influxdb datasource is configured
 to read data from the influxdb database.
 
