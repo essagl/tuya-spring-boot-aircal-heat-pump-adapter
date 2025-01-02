@@ -1,6 +1,7 @@
 services:
   heatpump:
     image: ghcr.io/essagl/tuya-spring-boot-aircal-heat-pump-adapter/heatpump:latest
+    container_name: heatpump
     ports:
       - "8080:8080"
     volumes:
