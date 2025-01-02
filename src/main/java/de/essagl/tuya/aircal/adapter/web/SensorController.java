@@ -19,7 +19,8 @@ public class SensorController {
     public SensorController(IndexWebPageController indexWebPageController) {
         this.indexWebPageController = indexWebPageController;
     }
-    @Operation(summary = "Get the sensor data. Used for statistical purposes to store the data for diagrams.")
+    @Operation(summary = "Get the sensor data. Used for statistical purposes to store the data for diagrams. " +
+            "Instead o f 0 return -27 if the sensor is not connected.")
     @GetMapping("/data")
     public SensorData getSensorData() {
         return indexWebPageController.getSensorData();
