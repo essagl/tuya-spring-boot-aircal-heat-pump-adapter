@@ -7,6 +7,7 @@ WORKDIR /app
 
 
 COPY target/*.jar /app/heatpump.jar
+COPY target/classes/application.properties /app/application.properties
 
 
 # Make port 8080 available to the world outside this container
