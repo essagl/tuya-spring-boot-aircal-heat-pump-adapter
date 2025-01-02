@@ -23,7 +23,15 @@ To enable access to the devices the device id of the heat pump and the thermomet
 **Note**: Even the Tuya's cloud messaging service is not needed, the service must be activated for the first 
 run so that the partitions are created and linked. After this, the service can be disabled again. (otherwise you will get "Failed to authenticate" errors)
 
-After the service is started, the default UI can be accessed at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+## Running as a Container Stack
+The complete setup can be run as a docker stack. The docker-compose file is located in the compose directory of the project.
+You need a docker installation on the machine that runs the heatpump adapter app to run the stack.
+
+After the services are started, the setup page can be accessed at the [http://localhost:8080](http://localhost:8080).
+Grafana Frontend ath Port 3000. 
+A default dashboard configuration is provided in the grafana directory which can be used after the influxdb datasource is configured
+to read data from the influxdb database.
+
 
 ## Linking a Tuya device
 
