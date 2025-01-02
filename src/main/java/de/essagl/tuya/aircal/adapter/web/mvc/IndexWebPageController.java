@@ -4,6 +4,7 @@ import de.essagl.tuya.aircal.adapter.service.HeatPumpService;
 import de.essagl.tuya.aircal.adapter.service.IndoorThermometerService;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.HeatingLogic;
 import de.essagl.tuya.aircal.adapter.service.operationalControl.HeatingLogicService;
+import de.essagl.tuya.aircal.adapter.web.mvc.model.SensorData;
 import de.essagl.tuya.aircal.adapter.web.mvc.model.SetupData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,5 +81,14 @@ public class IndexWebPageController {
                 heatingLogic.setWorkingMode("HOT WATER AND COOLING");
                 break;
         }
+    }
+
+    public SensorData getSensorData(){
+        SensorData sensorData = new SensorData();
+             sensorData.setTemp1(heatPumpService.getOutsideTemp().getValue());
+            sensorData.setTemp2(thermometerService.getTemperature().getValue());
+            sensorData.setTemp3(heatPumpService.getServiceWaterTemp().getValue());
+            sensorData.setPowerConsumption(heatPumpService.getPowerConsumption().getValue());
+            return sensorData;
     }
 }

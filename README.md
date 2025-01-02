@@ -13,7 +13,7 @@ heating water flow temperature is controlled by the heat pump's internal room th
 See application.properties how to use an external thermometer instead of the internal one(for example this one ![thermometer](documentation%2Fimages%2Fthermometer.jpg)). 
 Before the service can be used it is required that your heat pump and the thermometer is registered with the official Tuya Smart app 
 and a developer account is created for using the Tuya cloud services. 
-## Building 
+## Building from Source 
 This project requires Java Version 1.8 and the Maven build tool.
 The configuration file application.properties must contain the valid authorization key values
 Access ID/Client ID (connector.ak) and Access Secret/Client Secret (connector.sk) of your created Tuya could project and the Version number of the heat pump's control panel
@@ -23,7 +23,7 @@ To enable access to the devices the device id of the heat pump and the thermomet
 **Note**: Even the Tuya's cloud messaging service is not needed, the service must be activated for the first 
 run so that the partitions are created and linked. After this, the service can be disabled again. (otherwise you will get "Failed to authenticate" errors)
 
-After the service is started, the default UI can be accessed at [localhost](http://localhost:8080/swagger-ui.html)
+After the service is started, the default UI can be accessed at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## Linking a Tuya device
 
